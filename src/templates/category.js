@@ -1,0 +1,56 @@
+import React from "react";
+import { graphql } from "gatsby";
+
+import Layout from "../components/layout";
+
+import getCategoryPostSlug from "../get-category-post-slug.js";
+
+export const postListQuery = graphql`
+  query Posts($skip: Int!, $limit: Int!, $slug: String!) {
+    mysqlCategory(cat_slug: { eq: $slug }) {
+      cat_slug
+      cat_id
+      cat_title
+    }
+    allMysqlPost(
+      limit: $limit
+      skip: $skip
+      sort: { fields: date, order: DESC }
+      filter: { publish: { eq: 1 }, category: { cat_slug: { eq: $slug } } }
+    ) {
+      edges {
+        node {
+          title
+          title_slug
+          subtitle
+          subtitle_slug
+        }
+      }
+    }
+  }
+`;
+
+const IndexPage = ({ data }) => {
+  const posts = data.allMysqlPost.edges;
+
+  return (
+    <Layout>
+      <h1>{data.mysqlCategory.cat_title}</h1>
+      {posts.map(({ node: post }) => (
+        <div key={post.title}>
+          <h2>
+            <a
+              href={`/${getCategoryPostSlug(data.mysqlCategory)}/${
+                post.title_slug
+              }/${post.title_slug}`}
+            >
+              {post.title} - {post.subtitle}
+            </a>
+          </h2>
+        </div>
+      ))}
+    </Layout>
+  );
+};
+
+export default IndexPage;
