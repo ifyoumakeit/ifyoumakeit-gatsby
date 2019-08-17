@@ -20,7 +20,6 @@ export const postListQuery = graphql`
 `;
 
 const IndexPage = ({ data, ...props }) => {
-  console.log(data, props);
   const post = data.mysqlPost;
 
   return (
