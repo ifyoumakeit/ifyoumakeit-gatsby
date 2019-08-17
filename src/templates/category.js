@@ -3,7 +3,7 @@ import { graphql } from "gatsby";
 
 import Layout from "../components/layout";
 
-import getCategoryPostSlug from "../get-category-post-slug.js";
+const getCategoryPostSlug = require("../get-category-post-slug.js");
 
 export const postListQuery = graphql`
   query Posts($skip: Int!, $limit: Int!, $slug: String!) {

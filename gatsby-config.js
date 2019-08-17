@@ -1,5 +1,3 @@
-console.log(process.env.DB_HOST)
-
 module.exports = {
   siteMetadata: {
     title: `If You Make It`,
@@ -64,4 +62,4 @@ module.exports = {
 
     `gatsby-plugin-offline`,
   ],
-}
+};
