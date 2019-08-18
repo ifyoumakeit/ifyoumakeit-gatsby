@@ -1,9 +1,8 @@
 import React from "react";
+
 import { graphql } from "gatsby";
 
 import Layout from "../components/layout";
-
-const getCategoryPostSlug = require("../get-category-post-slug.js");
 
 export const postListQuery = graphql`
   query Posts($skip: Int!, $limit: Int!, $slug: String!) {
@@ -30,7 +29,8 @@ export const postListQuery = graphql`
   }
 `;
 
-const IndexPage = ({ data }) => {
+const IndexPage = ({ data, pageContext }) => {
+  const { categoryPostSlug } = pageContext;
   const posts = data.allMysqlPost.edges;
 
   return (
@@ -39,10 +39,9 @@ const IndexPage = ({ data }) => {
       {posts.map(({ node: post }) => (
         <div key={post.title}>
           <h2>
+            {/* <Img fluid={image} /> */}
             <a
-              href={`/${getCategoryPostSlug(data.mysqlCategory)}/${
-                post.title_slug
-              }/${post.title_slug}`}
+              href={`/${categoryPostSlug}/${post.title_slug}/${post.title_slug}`}
             >
               {post.title} - {post.subtitle}
             </a>
