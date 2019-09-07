@@ -48,17 +48,9 @@ export const postListQuery = graphql`
 `;
 
 const IndexPage = ({ data, pageContext }) => {
-  const {
-    categoryPostSlug,
-    skip,
-    slug,
-    limit,
-    currentPage,
-    numPages,
-  } = pageContext;
+  const { categoryPostSlug, slug, currentPage, numPages } = pageContext;
   const posts = data.allMysqlPost.edges;
   const images = data.allFile.nodes;
-  console.log({ images });
 
   return (
     <Layout>
@@ -73,20 +65,26 @@ const IndexPage = ({ data, pageContext }) => {
               <h2>
                 <a
                   href={`/${categoryPostSlug}/${post.title_slug}/${post.subtitle_slug}`}
-                >
-                  {post.title} - {post.subtitle}
-                </a>
+                  dangerouslySetInnerHTML={{
+                    __html: `${post.title} - ${post.subtitle}`,
+                  }}
+                ></a>
               </h2>
             </div>
           );
         })}
       </div>
-      {skip}| {limit}|{currentPage}|{numPages}
+
       <div className={styles.pagination}>
         {Array.from({ length: numPages }, (_, i) => (
           <a
-            className={styles.pagelink}
-            href={`/category/${slug}/${i ? i : ""}`}
+            className={[
+              styles.pagelink,
+              i === currentPage - 1 && styles.pagelinkActive,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            href={`/category/${slug}/${i > 0 ? i + 1 : ""}`}
             key={i}
           >
             {i + 1}

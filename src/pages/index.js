@@ -45,14 +45,14 @@ const IndexPage = ({ data }) => {
   const images = data.allFile.nodes;
   return (
     <Layout>
-      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <SEO title="Home" keywords={[`ifyoumakeit`, `music`, `pink couch`]} />
       <h1>Hi people</h1>
       <p>Welcome to If You Make It - Gatsby style.</p>
       <p>Now go build something great.</p>
       <div className={styles.categories}>
         {data.allMysqlCategory.edges.map(({ node: category }) => (
           <div className={styles.category} key={category.cat_title}>
-            <h1>{category.cat_title}</h1>
+            <h2>{category.cat_title}</h2>
             <div>
               {category.posts.slice(0, 2).map(post => {
                 const image = images.find(

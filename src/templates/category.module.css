@@ -17,9 +17,14 @@
   display: block;
   width: 25px;
   height: 25px;
-  border: 1px #333 solid;
+  border: 1px var(--color-body) solid;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 2px;
+}
+
+.pagelinkActive {
+  font-weight: bold;
+  color: var(--color-body);
 }

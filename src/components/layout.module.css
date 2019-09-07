@@ -1,0 +1,35 @@
+:root {
+  --color-body: darkslategrey;
+  --color-link: palevioletred;
+  --color-header: palevioletred;
+  --color-title: papayawhip;
+  --font-main: sans-serif;
+}
+
+html {
+  font-family: var(--font-main);
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+a:hover {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.main,
+.footer {
+  padding: 24px;
+}

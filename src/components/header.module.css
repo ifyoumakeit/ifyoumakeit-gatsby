@@ -1,0 +1,30 @@
+.header {
+  background: var(--color-header);
+  padding: 24px;
+}
+
+.title {
+  margin: 0;
+}
+
+.titlelink,
+.titlelink:hover {
+  color: var(--color-title);
+}
+
+.navlist {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navitem {
+  margin: 0;
+  margin-right: 12px;
+}
+
+.navlink,
+.navlink:hover {
+  color: white;
+}

@@ -30,9 +30,9 @@ const IndexPage = ({ data, ...props }) => {
   return (
     <Layout>
       <strong>{post.category.title}</strong>
-      <h1>
-        {post.title} - {post.subtitle}
-      </h1>
+      <h1
+        dangerouslySetInnerHTML={{ __html: `${post.title} - ${post.subtitle}` }}
+      />
       <p dangerouslySetInnerHTML={{ __html: post.body }} />
     </Layout>
   );
