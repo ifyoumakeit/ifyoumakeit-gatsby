@@ -28,23 +28,31 @@ export const postListQuery = graphql`
 const IndexPage = ({ data, ...props }) => {
   const post = data.mysqlPost;
 
-  const embed = post.postmetas.find(meta => meta.meta_name === "video_file");
+  const postmeta = post.postmetas.reduce(
+    (acc, meta) => ({ ...acc, [meta.meta_name]: meta.meta_value }),
+    {},
+  );
+
   return (
     <Layout>
       <strong>{post.category.title}</strong>
-      <h1>
-        {post.title} - {post.subtitle}
-      </h1>
+      <h1
+        dangerouslySetInnerHTML={{ __html: `${post.title} - ${post.subtitle}` }}
+      />
       <p dangerouslySetInnerHTML={{ __html: post.body }} />
-      {embed && (
+      {postmeta.video_file && (
         <iframe
           title="player"
-          id="ytplayer"
           type="text/html"
           width="640"
           height="360"
-          src={`https://www.youtube.com/embed/${embed.meta_value}`}
+          src={
+            postmeta.video_server === "y"
+              ? `https://www.youtube.com/embed/${postmeta.video_file}`
+              : `https://player.vimeo.com/video/${postmeta.video_file}?title=0&byline=0&portrait=0`
+          }
           frameBorder="0"
+          allowFullScreen
         />
       )}
     </Layout>

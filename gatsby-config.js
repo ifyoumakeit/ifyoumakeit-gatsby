@@ -17,8 +17,15 @@ module.exports = {
         },
         queries: [
           {
+            idFieldName: "id",
+            name: "categorytype",
+            statement: "SELECT * FROM categorytype",
+          },
+          {
             idFieldName: "cat_id",
             name: "category",
+            parentName: "categorytype",
+            foreignKey: "cat_type",
             statement: "SELECT * FROM category",
           },
           {

@@ -5,7 +5,7 @@ import { graphql } from "gatsby";
 import SEO from "../components/seo";
 import Layout from "../components/layout";
 import styles from "./index.module.css";
-import getCategorySlug from "../../get-category-post-slug.js";
+
 export const postListQuery = graphql`
   query {
     allFile(filter: { name: { glob: "*square*" } }) {
@@ -25,6 +25,9 @@ export const postListQuery = graphql`
           cat_slug
           cat_id
           cat_title
+          categorytype {
+            slug
+          }
           posts {
             id
             title
@@ -48,7 +51,7 @@ const IndexPage = ({ data }) => {
       <p>Now go build something great.</p>
       <div className={styles.categories}>
         {data.allMysqlCategory.edges.map(({ node: category }) => (
-          <div className={styles.category}>
+          <div className={styles.category} key={category.cat_title}>
             <h1>{category.cat_title}</h1>
             <div>
               {category.posts.slice(0, 2).map(post => {
@@ -60,9 +63,8 @@ const IndexPage = ({ data }) => {
                 );
                 return (
                   <a
-                    href={`${getCategorySlug(category)}/${post.title_slug}/${
-                      post.subtitle_slug
-                    }`}
+                    key={post.title_slug + post.subtitle_slug}
+                    href={`${category.categorytype.slug}/${post.title_slug}/${post.subtitle_slug}`}
                   >
                     {image && <Img fluid={image.childImageSharp.fluid} />}
                     <span

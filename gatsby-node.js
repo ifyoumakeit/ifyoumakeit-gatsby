@@ -1,6 +1,5 @@
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
-const getCategoryPostSlug = require("./get-category-post-slug.js");
 
 const CATEGORIES_PER_PAGE = 12;
 
@@ -14,6 +13,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           node {
             cat_slug
             cat_id
+            categorytype {
+              slug
+            }
             posts {
               id
               title_slug
@@ -35,12 +37,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // Create blog-list pages
   const categories = result.data.allMysqlCategory.edges;
 
-  categories.forEach(category => {
-    const slug = category.node.cat_slug;
-    const categoryPostSlug = getCategoryPostSlug(category.node);
-    const numPages = Math.ceil(
-      category.node.posts.length / CATEGORIES_PER_PAGE,
-    );
+  categories.forEach(({ node: category }) => {
+    const slug = category.cat_slug;
+    const categoryPostSlug = category.categorytype.slug;
+    const numPages = Math.ceil(category.posts.length / CATEGORIES_PER_PAGE);
 
     Array.from({ length: numPages }).forEach((_, i) => {
       createPage({
@@ -56,11 +56,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         },
       });
 
-      category.node.posts.forEach(post => {
+      category.posts.forEach(post => {
         createPage({
-          path: `${getCategoryPostSlug(category.node)}/${post.title_slug}/${
-            post.subtitle_slug
-          }`,
+          path: `${categoryPostSlug}/${post.title_slug}/${post.subtitle_slug}`,
           component: path.resolve(
             `./src/templates/post-${categoryPostSlug}.js`,
           ),
