@@ -4,6 +4,7 @@
   --color-header: palevioletred;
   --color-title: papayawhip;
   --font-main: sans-serif;
+  --padding: 24px;
 }
 
 html {
@@ -17,6 +18,8 @@ body {
   color: var(--color-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 a,
@@ -31,5 +34,5 @@ a:hover {
 
 .main,
 .footer {
-  padding: 24px;
+  padding: var(--padding);
 }
