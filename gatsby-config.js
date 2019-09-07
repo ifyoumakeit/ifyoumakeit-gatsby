@@ -26,7 +26,7 @@ module.exports = {
             idFieldName: "id",
             name: "post",
             parentName: "category",
-            statement: "SELECT * FROM posts",
+            statement: "SELECT * FROM posts ORDER BY posts.date DESC",
           },
           {
             foreignKey: "post_id",

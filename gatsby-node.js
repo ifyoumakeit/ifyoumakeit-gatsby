@@ -59,12 +59,15 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       category.node.posts.forEach(post => {
         createPage({
           path: `${getCategoryPostSlug(category.node)}/${post.title_slug}/${
-            post.title_slug
+            post.subtitle_slug
           }`,
-          component: path.resolve("./src/templates/post.js"),
+          component: path.resolve(
+            `./src/templates/post-${categoryPostSlug}.js`,
+          ),
           context: {
             categoryPostSlug,
             id: post.id,
+            imageSlug: `${categoryPostSlug}/${post.title_slug}-${post.subtitle_slug}*`,
           },
         });
       });

@@ -7,12 +7,7 @@ import Layout from "../components/layout";
 import styles from "./category.module.css";
 
 export const postListQuery = graphql`
-  query Posts(
-    $skip: Int!
-    $limit: Int!
-    $slug: String!
-    $categoryPostSlug: String!
-  ) {
+  query($skip: Int!, $limit: Int!, $slug: String!, $categoryPostSlug: String!) {
     allFile(
       filter: {
         relativeDirectory: { eq: $categoryPostSlug }
@@ -77,7 +72,7 @@ const IndexPage = ({ data, pageContext }) => {
               {image && <Img fluid={image.childImageSharp.fluid} />}
               <h2>
                 <a
-                  href={`/${categoryPostSlug}/${post.title_slug}/${post.title_slug}`}
+                  href={`/${categoryPostSlug}/${post.title_slug}/${post.subtitle_slug}`}
                 >
                   {post.title} - {post.subtitle}
                 </a>
