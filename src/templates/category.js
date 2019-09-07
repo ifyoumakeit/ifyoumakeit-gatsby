@@ -1,11 +1,34 @@
 import React from "react";
 
 import { graphql } from "gatsby";
+import Img from "gatsby-image";
 
 import Layout from "../components/layout";
+import styles from "./category.module.css";
 
 export const postListQuery = graphql`
-  query Posts($skip: Int!, $limit: Int!, $slug: String!) {
+  query Posts(
+    $skip: Int!
+    $limit: Int!
+    $slug: String!
+    $categoryPostSlug: String!
+  ) {
+    allFile(
+      filter: {
+        relativeDirectory: { eq: $categoryPostSlug }
+        name: { glob: "*square*" }
+      }
+    ) {
+      nodes {
+        relativePath
+        publicURL
+        childImageSharp {
+          fluid(maxWidth: 300) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+    }
     mysqlCategory(cat_slug: { eq: $slug }) {
       cat_slug
       cat_id
@@ -32,22 +55,30 @@ export const postListQuery = graphql`
 const IndexPage = ({ data, pageContext }) => {
   const { categoryPostSlug } = pageContext;
   const posts = data.allMysqlPost.edges;
+  const images = data.allFile.nodes;
+  console.log({ images });
 
   return (
     <Layout>
       <h1>{data.mysqlCategory.cat_title}</h1>
-      {posts.map(({ node: post }) => (
-        <div key={post.title}>
-          <h2>
-            {/* <Img fluid={image} /> */}
-            <a
-              href={`/${categoryPostSlug}/${post.title_slug}/${post.title_slug}`}
-            >
-              {post.title} - {post.subtitle}
-            </a>
-          </h2>
-        </div>
-      ))}
+      <div class={styles.grid}>
+        {posts.map(({ node: post }) => {
+          const path = `${categoryPostSlug}/${post.title_slug}-${post.subtitle_slug}-square.jpg`;
+          const image = images.find(image => image.relativePath.includes(path));
+          return (
+            <div key={post.title} class={styles.post}>
+              {image && <Img fluid={image.childImageSharp.fluid} />}
+              <h2>
+                <a
+                  href={`/${categoryPostSlug}/${post.title_slug}/${post.title_slug}`}
+                >
+                  {post.title} - {post.subtitle}
+                </a>
+              </h2>
+            </div>
+          );
+        })}
+      </div>
     </Layout>
   );
 };
