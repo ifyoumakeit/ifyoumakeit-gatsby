@@ -39,7 +39,7 @@ const IndexPage = ({ data, ...props }) => {
         type="text/html"
         width="640"
         height="360"
-        src={`https://www.youtube.com/embed/${embed.meta_value}`}
+        src={`https://www.youtube.com/embed/${embed && embed.meta_value}`}
         frameborder="0"
       ></iframe>
     </Layout>
