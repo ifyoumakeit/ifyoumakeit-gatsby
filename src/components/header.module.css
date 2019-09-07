@@ -13,18 +13,52 @@
 }
 
 .navlist {
-  display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .navitem {
+  display: inline-block;
   margin: 0;
-  margin-right: 12px;
+  margin-right: 6px;
+}
+
+.navitem::after {
+  content: ",";
+  color: white;
+}
+
+.navitem:last-child::after {
+  content: "";
+}
+
+.navitem:last-child::before {
+  content: "and ";
+  color: white;
 }
 
 .navlink,
 .navlink:hover {
   color: white;
+}
+
+@media (min-width: 500px) {
+  .navlist {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navitem {
+    margin: 0;
+    margin-right: 12px;
+  }
+
+  .navitem::after,
+  .navitem::before,
+  .navitem:last-child::before {
+    content: "";
+  }
 }
