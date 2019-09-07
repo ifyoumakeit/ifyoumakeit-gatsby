@@ -53,7 +53,14 @@ export const postListQuery = graphql`
 `;
 
 const IndexPage = ({ data, pageContext }) => {
-  const { categoryPostSlug } = pageContext;
+  const {
+    categoryPostSlug,
+    skip,
+    slug,
+    limit,
+    currentPage,
+    numPages,
+  } = pageContext;
   const posts = data.allMysqlPost.edges;
   const images = data.allFile.nodes;
   console.log({ images });
@@ -61,12 +68,12 @@ const IndexPage = ({ data, pageContext }) => {
   return (
     <Layout>
       <h1>{data.mysqlCategory.cat_title}</h1>
-      <div class={styles.grid}>
+      <div className={styles.grid}>
         {posts.map(({ node: post }) => {
           const path = `${categoryPostSlug}/${post.title_slug}-${post.subtitle_slug}-square.jpg`;
           const image = images.find(image => image.relativePath.includes(path));
           return (
-            <div key={post.title} class={styles.post}>
+            <div key={post.title} className={styles.post}>
               {image && <Img fluid={image.childImageSharp.fluid} />}
               <h2>
                 <a
@@ -78,6 +85,18 @@ const IndexPage = ({ data, pageContext }) => {
             </div>
           );
         })}
+      </div>
+      {skip}| {limit}|{currentPage}|{numPages}
+      <div className={styles.pagination}>
+        {Array.from({ length: numPages }, (_, i) => (
+          <a
+            className={styles.pagelink}
+            href={`/category/${slug}/${i ? i : ""}`}
+            key={i}
+          >
+            {i + 1}
+          </a>
+        ))}
       </div>
     </Layout>
   );

@@ -41,6 +41,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const numPages = Math.ceil(
       category.node.posts.length / CATEGORIES_PER_PAGE,
     );
+
     Array.from({ length: numPages }).forEach((_, i) => {
       createPage({
         path: i === 0 ? `category/${slug}` : `category/${slug}/${i + 1}`,
